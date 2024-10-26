@@ -22,7 +22,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Run unit tests
-        run: ./gradlew test aggregateTestReport
+        run: ./gradlew unitTests
 
       - name: Upload unit tests report
         if: always()

@@ -24,6 +24,19 @@ plugins {
 }
 
 project.afterEvaluate {
+    tasks.register('unitTests', TestReport) {
+        description = "Generates a combined test report for all modules"
+        group = "verification"
+
+        subprojects.each { subproject ->
+            subproject.tasks.withType(Test).forEach { testTask ->
+                reportOn(testTask.binaryResultsDirectory)
+            }
+        }
+
+        destinationDirectory = file("$buildDir/reports/tests/aggregate")
+    }
+
     tasks.register("jacocoCoverageVerification", JacocoCoverageVerification) {
         classDirectories = tasks.named("generateJacocoCoverageReport").get().classDirectories
         executionData = tasks.named("generateJacocoCoverageReport").get().executionData
