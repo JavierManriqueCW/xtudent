@@ -1,0 +1,34 @@
+plugins {
+    alias(libs.plugins.com.android.library)
+    alias(libs.plugins.org.jetbrains.kotlin.android)
+    alias(libs.plugins.com.google.devtools.ksp)
+}
+
+android {
+    namespace 'com.jmp.common'
+    compileSdk libs.versions.androidCompileSdkVersion.get().toInteger()
+
+    defaultConfig {
+        minSdk libs.versions.androidMinSdkVersion.get().toInteger()
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+
+    kotlinOptions {
+        jvmTarget = libs.versions.jvmTarget.get().toInteger()
+    }
+
+    buildFeatures {
+        compose = true
+    }
+}
+
+dependencies {
+
+    api project(':common:ui')
+    api project(':common:utils')
+    api project(':common:usecase')
+}

@@ -1,0 +1,32 @@
+name: Code coverage check
+
+on:
+  workflow_dispatch:
+  pull_request:
+
+jobs:
+  run-code-coverage-check:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Build and test with Gradle
+        run: ./gradlew clean generateJacocoCoverageReport
+
+      - name: Upload JaCoCo report
+        if: success()
+        uses: actions/upload-artifact@v3
+        with:
+          name: jacoco-report
+          path: build/reports/jacoco/jacoco/html

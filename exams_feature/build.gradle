@@ -1,0 +1,28 @@
+plugins {
+    alias(libs.plugins.com.android.library)
+    alias(libs.plugins.org.jetbrains.kotlin.android)
+}
+
+android {
+    namespace 'com.jmp.examsfeature'
+    compileSdk libs.versions.androidCompileSdkVersion.get().toInteger()
+
+    defaultConfig {
+        minSdk libs.versions.androidMinSdkVersion.get().toInteger()
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+    kotlinOptions {
+        jvmTarget = libs.versions.jvmTarget.get().toInteger()
+    }
+}
+
+dependencies {
+
+    api project(':exams_feature:presentation')
+    api project(':exams_feature:domain')
+    api project(':exams_feature:data')
+}

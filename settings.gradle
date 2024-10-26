@@ -1,0 +1,35 @@
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+plugins {
+    id 'org.gradle.toolchains.foojay-resolver-convention' version '0.4.0'
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        maven { url 'https://jitpack.io' }
+    }
+}
+rootProject.name = "Xtudent"
+include ':app'
+include ':common'
+include ':exams_feature'
+include ':exams_feature:data'
+include ':common:ui'
+include ':onboarding_feature'
+include ':splash_feature'
+include ':common:utils'
+include ':exams_feature:presentation'
+include ':exams_feature:domain'
+include ':storage'
+include ':storage:preferences'
+include ':storage:preferences:domain'
+include ':storage:preferences:data'
+include ':storage:database'
+include ':common:usecase'

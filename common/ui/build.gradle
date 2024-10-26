@@ -1,0 +1,57 @@
+plugins {
+    alias(libs.plugins.com.android.library)
+    alias(libs.plugins.org.jetbrains.kotlin.android)
+    alias(libs.plugins.com.google.dagger.hilt.android)
+    alias(libs.plugins.com.google.devtools.ksp)
+}
+
+android {
+    namespace 'com.jmp.common.presentation'
+    compileSdk libs.versions.androidCompileSdkVersion.get().toInteger()
+
+    defaultConfig {
+        minSdk libs.versions.androidMinSdkVersion.get().toInteger()
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+    kotlinOptions {
+        jvmTarget = libs.versions.jvmTarget.get().toInteger()
+    }
+
+    buildFeatures {
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion libs.versions.kotlin.compiler.extension.get()
+    }
+}
+
+dependencies {
+
+    implementation project(':common:utils')
+
+    implementation libs.ktxcore
+    implementation libs.appcompat
+    implementation libs.material
+
+    implementation libs.gson
+
+    implementation libs.compose.material
+    implementation libs.compose.constraintlayout
+    implementation libs.compose.shimmer
+    implementation libs.lottie.compose
+
+    implementation libs.androidx.runtime.android
+    implementation libs.androidx.runtime.saveable.android
+    implementation libs.androidx.ui.android
+    implementation libs.navigation.ui
+
+    implementation libs.hilt.android
+    ksp libs.hilt.compiler
+    ksp libs.hilt.android.compiler
+
+    testImplementation libs.junit
+}

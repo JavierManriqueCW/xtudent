@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="unknown_error">"An error occurred"</string>
+    <string name="no_connectivity_error">"No connectivity"</string>
+    <string name="no_quotes_error">Could not retrieve any quotes</string>
+    <string name="open_file_error">Could not open the file</string>
+    <string name="wrong_exam_format">The exam does not have the right format</string>
+    <string name="exam_save_error">Could not save the exam</string>
+    <string name="local_exams_fetch_error">An error occurred trying to get the exams</string>
+    <string name="exam_not_found">Could not retrieve the exam</string>
+    <string name="exam_could_not_be_deleted">The exam could not be deleted</string>
+</resources>

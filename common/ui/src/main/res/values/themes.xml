@@ -1,0 +1,9 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="Theme.Xtudent" parent="Base.Theme.Xtudent">
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
+    <!-- Base application theme. -->
+    <style name="Base.Theme.Xtudent" parent="Theme.Material3.Dark.NoActionBar" />
+</resources>

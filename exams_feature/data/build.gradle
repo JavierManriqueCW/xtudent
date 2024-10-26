@@ -1,0 +1,59 @@
+plugins {
+    alias(libs.plugins.com.android.library)
+    alias(libs.plugins.org.jetbrains.kotlin.android)
+    alias(libs.plugins.com.google.dagger.hilt.android)
+    alias(libs.plugins.com.google.devtools.ksp)
+}
+
+android {
+    namespace 'com.jmp.examsfeature.data'
+    compileSdk libs.versions.androidCompileSdkVersion.get().toInteger()
+
+    defaultConfig {
+        minSdk libs.versions.androidMinSdkVersion.get().toInteger()
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+
+    kotlinOptions {
+        jvmTarget = libs.versions.jvmTarget.get().toInteger()
+    }
+
+    subprojects{
+        tasks.withType(Test).configureEach{
+            jvmArgs = jvmArgs + ['--add-opens=java.base/java.lang=ALL-UNNAMED']
+        }
+    }
+}
+
+dependencies {
+
+    implementation project(':common')
+    implementation project(':exams_feature:domain')
+    api project(':storage:database')
+
+    implementation libs.ktxcore
+
+    implementation libs.dagger.compiler
+    implementation libs.retrofit.adapter
+    implementation libs.gson
+    implementation libs.converter.gson
+    implementation libs.okhttp.interceptor
+    implementation libs.poi.ooxml
+    implementation libs.androidx.multidex
+
+    implementation libs.hilt.android
+    ksp libs.hilt.compiler
+    ksp libs.hilt.android.compiler
+
+    testImplementation libs.junit
+    testImplementation libs.mockito.kotlin
+    testImplementation libs.mockito.core
+    testImplementation libs.mockito.inline
+    testImplementation libs.robolectric
+    testImplementation libs.turbine
+    testImplementation libs.kotlinx.coroutines.test
+}
