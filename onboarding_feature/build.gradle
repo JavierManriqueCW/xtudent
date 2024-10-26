@@ -1,0 +1,57 @@
+plugins {
+    alias(libs.plugins.com.android.library)
+    alias(libs.plugins.org.jetbrains.kotlin.android)
+    alias(libs.plugins.com.google.dagger.hilt.android)
+    alias(libs.plugins.com.google.devtools.ksp)
+}
+
+android {
+    namespace 'com.jmp.onboardingfeature'
+    compileSdk libs.versions.androidCompileSdkVersion.get().toInteger()
+
+    defaultConfig {
+        minSdk libs.versions.androidMinSdkVersion.get().toInteger()
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+
+    kotlinOptions {
+        jvmTarget = libs.versions.jvmTarget.get().toInteger()
+    }
+
+    buildFeatures {
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion libs.versions.kotlin.compiler.extension.get()
+    }
+}
+
+dependencies {
+
+    implementation project(':common')
+    implementation project(':storage:preferences')
+
+    implementation libs.ktxcore
+    implementation libs.appcompat
+    implementation libs.material
+    implementation libs.androidx.foundation.android
+
+    implementation platform(libs.compose.bom)
+    implementation libs.compose.material
+    implementation libs.lottie.compose
+
+    implementation libs.navigation.fragment
+    implementation libs.navigation.ui
+
+    implementation libs.hilt.android
+    ksp libs.hilt.compiler
+
+    testImplementation libs.junit
+    testImplementation libs.hilt.android.testing
+    testImplementation libs.mockito.kotlin
+    testImplementation libs.mockito.core
+}

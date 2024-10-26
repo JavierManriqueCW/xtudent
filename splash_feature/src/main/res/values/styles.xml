@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="SplashTheme" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenAnimationDuration">0</item>
+        <item name="windowSplashScreenBackground">@color/black</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/xtudent_icon</item>
+        <item name="postSplashScreenTheme">@style/Theme.Xtudent</item>
+        <item name="android:statusBarColor">@color/black</item>
+    </style>
+</resources>

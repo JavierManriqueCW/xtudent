@@ -1,0 +1,151 @@
+plugins {
+    alias(libs.plugins.com.android.application)
+    alias(libs.plugins.org.jetbrains.kotlin.android)
+    alias(libs.plugins.com.google.dagger.hilt.android)
+    alias(libs.plugins.com.google.devtools.ksp)
+    id("shot")
+}
+
+kotlin {
+    jvmToolchain(libs.versions.jvmToolchain.get().toInteger())
+}
+
+android {
+    namespace 'com.jmp.xtudent'
+    compileSdk libs.versions.androidCompileSdkVersion.get().toInteger()
+
+    defaultConfig {
+        applicationId "com.jmp.xtudent"
+        minSdk libs.versions.androidMinSdkVersion.get().toInteger()
+        targetSdk libs.versions.androidTargetSdkVersion.get().toInteger()
+        versionCode 1
+        versionName "1.0.0"
+        multiDexEnabled = true
+
+        testInstrumentationRunner "com.jmp.xtudent.HiltTestRunner"
+        vectorDrawables {
+            useSupportLibrary true
+        }
+    }
+
+    buildTypes {
+        debug{
+            testCoverageEnabled true
+        }
+    }
+
+    sourceSets {
+        main {
+            java.srcDirs = ['src/main/java']
+        }
+        androidTest {
+            java.srcDirs = ['src/androidTest/java']
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+    kotlinOptions {
+        jvmTarget = libs.versions.jvmTarget.get().toInteger()
+    }
+    buildFeatures {
+        viewBinding true
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion libs.versions.kotlin.compiler.extension.get()
+    }
+    packagingOptions {
+        resources {
+            excludes += '/META-INF/DEPENDENCIES'
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes += "/META-INF/gradle/incremental.annotation.processors"
+        }
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+        execution 'ANDROIDX_TEST_ORCHESTRATOR'
+        animationsDisabled = true
+    }
+
+    useLibrary 'android.test.mock'
+}
+
+dependencies {
+
+    implementation project(':common')
+    implementation project(':exams_feature')
+    implementation project(':splash_feature')
+    implementation project(':onboarding_feature')
+    implementation project(':storage:preferences')
+    
+    implementation libs.kotlin
+    implementation libs.ktxcore
+    implementation libs.material
+    implementation libs.lifecycle.vmktx
+    implementation libs.appcompat
+    implementation libs.window
+    implementation libs.recyclerview
+    implementation libs.security
+
+    implementation libs.lifecycle.extensions
+    implementation(libs.androidx.ui.test.junit4.android) {
+        exclude group: "androidx.test.ext", module: "junit"
+    }
+    implementation libs.androidx.espresso.intents
+    debugImplementation libs.ui.tooling
+    debugImplementation libs.ui.test.manifest
+    ksp libs.lifecycle.compiler
+    implementation libs.lifecycle.runtime
+    implementation libs.navigation.fragment
+    implementation libs.navigation.ui
+
+    implementation libs.lottie.compose
+    implementation libs.accompanist.pager
+    implementation libs.accompanist.coil
+
+    implementation libs.compose.shimmer
+    implementation platform(libs.compose.bom)
+    implementation libs.compose.material
+    implementation libs.compose.constraintlayout
+    implementation libs.compose.coil
+
+    implementation libs.hilt.android
+    implementation libs.hilt.navigation
+    ksp libs.hilt.compiler
+    ksp libs.hilt.android.compiler
+
+    implementation libs.org.jacoco.agent
+
+    kspTest libs.hilt.android.compiler
+    testImplementation libs.android.runner
+    testImplementation libs.androidx.core.testing
+    testImplementation libs.junit
+    testImplementation libs.hilt.android.testing
+    testImplementation libs.mockito.core
+    testImplementation libs.mockito.kotlin
+    testImplementation libs.kotlinx.coroutines.test
+    testImplementation libs.androidx.test.core
+
+    kspAndroidTest libs.dagger.compiler
+    kspAndroidTest libs.hilt.android.compiler
+
+    androidTestImplementation libs.mockito.core
+    androidTestImplementation libs.mockito.kotlin
+    androidTestImplementation libs.mockito.android
+    androidTestImplementation libs.androidx.junit
+    androidTestImplementation libs.androidx.rules
+    androidTestImplementation libs.androidx.test.core
+    androidTestImplementation libs.uiautomator
+    androidTestImplementation libs.hilt.android.testing
+    androidTestImplementation libs.okhttp3.mockwebserver
+    androidTestUtil libs.androidx.orchestrator
+}
+
+shot {
+    applicationId = "com.jmp.xtudent"
+    tolerance = 0.1
+}

@@ -1,0 +1,135 @@
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath(libs.gradle)
+        classpath(libs.agp)
+        classpath(libs.karumi.shot)
+        classpath libs.hilt.android.gradle.plugin
+        classpath libs.org.jacoco.core
+        classpath libs.jacoco.org.jacoco.ant
+    }
+}
+
+plugins {
+    alias(libs.plugins.com.android.application) apply false
+    alias(libs.plugins.com.android.library) apply false
+    alias(libs.plugins.org.jetbrains.kotlin.android) apply false
+    alias(libs.plugins.com.google.dagger.hilt.android) apply false
+    alias(libs.plugins.io.gitlab.arturbosch.detekt)
+    alias(libs.plugins.com.google.devtools.ksp) apply false
+    id("application")
+}
+
+project.afterEvaluate {
+    tasks.register('unitTests', TestReport) {
+        description = "Generates a combined test report for all modules"
+        group = "verification"
+
+        subprojects.each { subproject ->
+            subproject.tasks.withType(Test).forEach { testTask ->
+                reportOn(testTask.binaryResultsDirectory)
+            }
+        }
+
+        destinationDirectory = file("$buildDir/reports/tests/aggregate")
+    }
+
+    tasks.register("jacocoCoverageVerification", JacocoCoverageVerification) {
+        classDirectories = tasks.named("generateJacocoCoverageReport").get().classDirectories
+        executionData = tasks.named("generateJacocoCoverageReport").get().executionData
+        violationRules {
+            rule {
+                limit {
+                    counter = 'LINE'
+                    value = 'COVEREDRATIO'
+                    minimum = 0.5
+                }
+            }
+        }
+    }
+
+    tasks.register("generateJacocoCoverageReport", JacocoReport) {
+        group = "Reporting"
+        description = "Generate JaCoCo coverage report for the debug build."
+
+        subprojects.collect { subproject ->
+            subproject.tasks.findAll { task ->
+                if (task.name == "testDebugUnitTest") {
+                    dependsOn task
+                }
+            }
+        }
+
+        finalizedBy(tasks.named("jacocoCoverageVerification").get())
+
+        def excludedFiles = [
+                '**/screens/**',
+                '**/components/**',
+                '**/compose/**',
+                '**/uiprovider/**',
+                '**/state/**',
+                '**/navigation/**',
+                '**/core/**',
+                '**/di/**',
+                '**/properties/**',
+                '**/model/**',
+                '**/theme/**',
+                '**/\$*ScreenKt',
+                '**/dagger/**',
+                '**/hilt/**',
+                '**/generated/**',
+                '**/*_*.java',
+                '**/*_HiltComponents*',
+                '**/*Dagger*',
+                '**/*Hilt*',
+                '**/*\$*',
+                '**/*_Factory*',
+                '**/*_Impl*',
+                '**/*_MembersInjector*',
+                '**/*_Module*',
+                '**/*_Subcomponent*',
+                '**/*_Component*',
+        ]
+
+        def classes = subprojects.collect { project ->
+            "${project.buildDir}/intermediates/classes/debug"
+        }
+        def debugFileTree = classes.collect { path ->
+            fileTree(
+                    dir: path,
+                    excludes: excludedFiles,
+                    includes: ['**/com/jmp/**']
+            )
+        }
+        def sources = subprojects.collect { project ->
+            [
+                    "${project.projectDir.name}/src/main/java",
+                    "${project.projectDir.name}/src/main/java"
+            ]
+        }.flatten()
+        def executions = subprojects.collect { project ->
+            "${project.buildDir}/outputs/unit_test_code_coverage/debugUnitTest/testDebugUnitTest.exec"
+        }
+
+        classDirectories = files([debugFileTree])
+        sourceDirectories = files([sources])
+        executionData = files(executions)
+    }
+}
+
+allprojects {
+    apply plugin: libs.plugins.jacoco.get().pluginId
+    apply plugin: libs.plugins.io.gitlab.arturbosch.detekt.get().pluginId
+    detekt {
+        buildUponDefaultConfig = false
+        config.setFrom(rootProject.files("config/detekt/detekt.yml"))
+    }
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
