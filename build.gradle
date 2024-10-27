@@ -45,7 +45,7 @@ project.afterEvaluate {
                 limit {
                     counter = 'LINE'
                     value = 'COVEREDRATIO'
-                    minimum = 0.5
+                    minimum = 0.8
                 }
             }
         }
@@ -77,7 +77,8 @@ project.afterEvaluate {
                 '**/properties/**',
                 '**/model/**',
                 '**/theme/**',
-                '**/\$*ScreenKt',
+                '**/*ScreenKt.class',
+                '**/*Activity.class',
                 '**/dagger/**',
                 '**/hilt/**',
                 '**/generated/**',
