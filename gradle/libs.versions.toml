@@ -62,7 +62,7 @@ espressoCoreVersion = "3.6.1"
 [libraries]
 awaitility-kotlin = { module = "org.awaitility:awaitility-kotlin", version.ref = "awaitilityKotlin" }
 gradle = { group = "com.android.tools.build", name = "gradle", version.ref = "android-application" }
-agp = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version = "kotlin" }
+agp = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin" }
 hilt-android-gradle-plugin = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hilt" }
 jacoco-org-jacoco-ant = { module = "org.jacoco:org.jacoco.ant", version.ref = "jacoco" }
 kotlin = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib-jdk7", version.ref = "kotlin" }
