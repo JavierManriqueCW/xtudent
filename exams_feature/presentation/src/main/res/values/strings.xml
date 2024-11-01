@@ -7,7 +7,7 @@
     <string name="exam_creation_second_indication">"The exam will consist of a name (first row), description (second row), image (third row) and a set of questions where each row will correspond with a question"</string>
     <string name="exam_creation_third_indication">"The first column of each question row will be the question itself, the second one the right answer and all other columns the remaining wrong answers"</string>
     <string name="exam_detail_question_label">"Question"</string>
-    <string name="exam_detail_correct_answer">"Right response"</string>
+    <string name="exam_detail_correct_answer">"Correct answer"</string>
     <string name="exam_detail_wrong_alternative">"Wrong alternative"</string>
     <string name="exam_detail_deletion_dialog_title">"Delete"</string>
     <string name="exam_detail_deletion_dialog_body">"Do you want to delete this exam?"</string>

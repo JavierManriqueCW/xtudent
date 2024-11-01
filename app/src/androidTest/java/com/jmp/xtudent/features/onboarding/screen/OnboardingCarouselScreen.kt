@@ -1,8 +1,13 @@
 package com.jmp.xtudent.features.onboarding.screen
 
+import androidx.compose.ui.semantics.SemanticsProperties
+import androidx.compose.ui.semantics.getOrNull
 import androidx.compose.ui.test.junit4.ComposeTestRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
+import com.jmp.commons.utils.test.TestUtils.waitUntil
+import com.jmp.examsfeature.presentation.list.screens.ExamsScreenTestTags.EMPTY_EXAMS_SCREEN_LOTTIE
+import com.jmp.onboardingfeature.OnboardingCarouselScreenTestTags.FIRST_ONBOARDING_LOTTIE
 import com.jmp.onboardingfeature.OnboardingCarouselScreenTestTags.NEXT_BUTTON
 import com.jmp.onboardingfeature.OnboardingCarouselScreenTestTags.ONBOARDING_SCREEN_NAME
 import com.jmp.onboardingfeature.OnboardingCarouselScreenTestTags.SKIP_BUTTON
@@ -34,6 +39,17 @@ open class OnboardingCarouselScreen(
             tapOnNextButton()
         }
         return ExamsScreen(composeTestRule)
+    }
+
+    fun waitUntilFirstLottieIsLoaded(): OnboardingCarouselScreen = apply {
+        waitUntil {
+            composeTestRule
+                .onNodeWithTag(FIRST_ONBOARDING_LOTTIE)
+                .fetchSemanticsNode()
+                .config
+                .getOrNull(SemanticsProperties.ProgressBarRangeInfo)
+                ?.current != 0f
+        }
     }
 
     companion object {

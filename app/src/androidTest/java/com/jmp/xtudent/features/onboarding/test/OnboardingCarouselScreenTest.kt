@@ -47,6 +47,7 @@ open class OnboardingCarouselScreenTest : UiTest() {
     fun shouldNavigateToExamsScreenAfterThirdOnboardingSlide() = runTest {
         onOnboardingCarouselScreen()
             .tapConsecutivelyOnNextButton()
+            .waitUntilEmptyLottieIsDisplayed()
 
         compareScreenshot(composeRule)
     }
@@ -55,6 +56,7 @@ open class OnboardingCarouselScreenTest : UiTest() {
     fun shouldSkipOnboardingScreen() = runTest {
         onOnboardingCarouselScreen()
             .tapOnSkipButton()
+            .waitUntilEmptyLottieIsDisplayed()
 
         compareScreenshot(composeRule)
     }

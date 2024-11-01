@@ -1,9 +1,12 @@
 package com.jmp.xtudent.features.exams.list.screen
 
+import androidx.compose.ui.semantics.SemanticsProperties
+import androidx.compose.ui.semantics.getOrNull
 import androidx.compose.ui.test.SemanticsNodeInteraction
 import androidx.compose.ui.test.junit4.ComposeTestRule
 import androidx.compose.ui.test.onChild
 import androidx.compose.ui.test.onChildAt
+import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextClearance
 import androidx.compose.ui.test.performTextInput
@@ -11,7 +14,9 @@ import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.swipeDown
 import androidx.compose.ui.test.swipeLeft
 import androidx.compose.ui.test.swipeUp
+import com.jmp.commons.utils.test.TestUtils.waitUntil
 import com.jmp.examsfeature.presentation.list.screens.ExamsScreenTestTags.CLOSE_FILTER_TEXTBOX_BUTTON
+import com.jmp.examsfeature.presentation.list.screens.ExamsScreenTestTags.EMPTY_EXAMS_SCREEN_LOTTIE
 import com.jmp.examsfeature.presentation.list.screens.ExamsScreenTestTags.EXAMS_LIST
 import com.jmp.examsfeature.presentation.list.screens.ExamsScreenTestTags.EXAMS_SCREEN
 import com.jmp.examsfeature.presentation.list.screens.ExamsScreenTestTags.FILTER_TEXT_BOX
@@ -31,7 +36,6 @@ class ExamsScreen(
     init {
         composeTestRule.apply {
             waitForNode(EXAMS_SCREEN)
-            waitForIdle()
         }
     }
 
@@ -124,6 +128,17 @@ class ExamsScreen(
             waitForIdle()
         }
         return ExamCreationScreen(composeTestRule)
+    }
+
+    fun waitUntilEmptyLottieIsDisplayed(): ExamsScreen = apply {
+        waitUntil {
+            composeTestRule
+                .onNodeWithTag(EMPTY_EXAMS_SCREEN_LOTTIE)
+                .fetchSemanticsNode()
+                .config
+                .getOrNull(SemanticsProperties.ProgressBarRangeInfo)
+                ?.current != 0f
+        }
     }
 
     private fun getFilterTextBox(): SemanticsNodeInteraction =

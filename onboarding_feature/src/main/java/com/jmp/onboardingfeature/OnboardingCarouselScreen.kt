@@ -12,7 +12,7 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -29,16 +29,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.jmp.common.ui.navigation.Screen
-import com.jmp.common.ui.theme.FirstOnboardingImageSize
 import com.jmp.common.ui.theme.LargeBodyTextSize
-import com.jmp.common.ui.theme.SecondOnboardingImageSize
 import com.jmp.common.ui.theme.Shapes
-import com.jmp.common.ui.theme.ThirdOnboardingImageSize
 import com.jmp.onboardingfeature.OnboardingCarouselScreenTestTags.ONBOARDING_SCREEN_NAME
 import com.jmp.onboardingfeature.components.OnboardingButtons
 import com.jmp.onboardingfeature.components.OnboardingScreenImage
-import com.jmp.onboardingfeature.properties.OnboardingProperties
 import com.jmp.onboardingfeature.state.OnboardingState
+import com.jmp.onboardingfeature.viewmodel.OnboardingIntent
 import com.jmp.onboardingfeature.viewmodel.OnboardingViewModel
 import kotlinx.coroutines.launch
 
@@ -48,41 +45,36 @@ fun OnboardingCarouselScreen(
     mainNavigationController: NavHostController
 ) {
     val scope = rememberCoroutineScope()
-    val onboardingProperties = remember { buildOnboardingProperties() }
-    val currentPageViewState = remember { OnboardingState() }
-    val pagerState = rememberPagerState { onboardingProperties.pages }
+    val uiState = viewModel.uiState.collectAsState()
+    val pagerState = rememberPagerState { uiState.value.pages }
 
     HorizontalPager(
         modifier = Modifier
             .fillMaxHeight()
             .testTag(ONBOARDING_SCREEN_NAME),
         state = pagerState
-    ) { currentPageIndex ->
-        updateCurrentPageViewState(
-            currentPageIndex = currentPageIndex,
-            state = currentPageViewState,
-            onboardingProperties = onboardingProperties
-        )
+    ) { page ->
         OnboardingStepBody(
             modifier = Modifier
                 .paint(
-                    painter = painterResource(currentPageViewState.backgroundImage),
+                    painter = painterResource(uiState.value.backgroundImageList[page]),
                     contentScale = ContentScale.FillBounds
                 ),
-            viewState = currentPageViewState
+            state = uiState.value,
+            page = page
         )
     }
     OnboardingButtons(
         navController = mainNavigationController,
         fontFamily = FontFamily.Default,
-        buttonColor = onboardingProperties.buttonColor,
+        buttonColor = uiState.value.buttonColor,
         skipTo = Screen.Main.route,
         nextOnClick = {
             scope.launch {
-                if (pagerState.currentPage == onboardingProperties.pages - 1) {
+                if (pagerState.currentPage == uiState.value.pages - 1) {
                     mainNavigationController.popBackStack()
                     mainNavigationController.navigate(Screen.Main.route)
-                    viewModel.disableShouldShowOnboarding()
+                    viewModel.sendIntent(OnboardingIntent.DisableShouldShowOnboarding)
                     return@launch
                 }
                 pagerState.animateScrollToPage(pagerState.currentPage + 1)
@@ -94,7 +86,8 @@ fun OnboardingCarouselScreen(
 @Composable
 private fun OnboardingStepBody(
     modifier: Modifier = Modifier,
-    viewState: OnboardingState
+    state: OnboardingState,
+    page: Int
 ) {
     Box(modifier = modifier) {
         Column(
@@ -106,9 +99,10 @@ private fun OnboardingStepBody(
                 modifier = Modifier
                     .padding(horizontal = 48.dp)
                     .align(Alignment.CenterHorizontally),
-                size = viewState.imageSize,
-                lottieId = viewState.imageId,
-                contentScale = viewState.imageContentScale,
+                size = state.imageSizeList[page],
+                lottieId = state.imageIdList[page],
+                lottieTestTag = state.lottieTestTags[page],
+                contentScale = state.imageContentScaleList[page],
             )
             Spacer(modifier = Modifier.height(24.dp))
             Column(
@@ -116,8 +110,8 @@ private fun OnboardingStepBody(
                     .fillMaxWidth()
                     .padding(horizontal = 24.dp)
             ) {
-                viewState.titleRes?.let { titleRes ->
-                    viewState.descriptionRes?.let { descriptionRes ->
+                state.titleResList[page].let { titleRes ->
+                    state.descriptionResList[page].let { descriptionRes ->
                         Column(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalAlignment = Alignment.CenterHorizontally
@@ -162,60 +156,11 @@ private fun OnboardingStepBody(
     }
 }
 
-private fun buildOnboardingProperties(): OnboardingProperties =
-    OnboardingProperties(
-        pages = 3,
-        imageIdList = listOf(
-            R.raw.anim_first_onboarding_step,
-            R.raw.anim_second_onboarding_step,
-            R.raw.anim_third_onboarding_step
-        ),
-        titleResList = listOf(
-            R.string.first_onboarding_step_title,
-            R.string.second_onboarding_step_title,
-            R.string.third_onboarding_step_title
-        ),
-        descriptionResList = listOf(
-            R.string.first_onboarding_step_description,
-            R.string.second_onboarding_step_description,
-            R.string.third_onboarding_step_description
-        ),
-        backgroundImageList = listOf(
-            R.drawable.bg_onboarding_first_step,
-            R.drawable.bg_onboarding_second_step,
-            R.drawable.bg_onboarding_third_step
-        ),
-        imageSizeList = listOf(
-            FirstOnboardingImageSize,
-            SecondOnboardingImageSize,
-            ThirdOnboardingImageSize
-        ),
-        imageContentScaleList = listOf(
-            ContentScale.Crop,
-            ContentScale.Crop,
-            ContentScale.FillBounds
-        ),
-        buttonColor = Color.White,
-        selectedDotColor = Color.White
-    )
-
-private fun updateCurrentPageViewState(
-    currentPageIndex: Int,
-    state: OnboardingState,
-    onboardingProperties: OnboardingProperties
-) {
-    state.apply {
-        imageId = onboardingProperties.imageIdList[currentPageIndex]
-        titleRes = onboardingProperties.titleResList[currentPageIndex]
-        descriptionRes = onboardingProperties.descriptionResList[currentPageIndex]
-        backgroundImage = onboardingProperties.backgroundImageList[currentPageIndex]
-        imageSize = onboardingProperties.imageSizeList[currentPageIndex]
-        imageContentScale = onboardingProperties.imageContentScaleList[currentPageIndex]
-    }
-}
-
 object OnboardingCarouselScreenTestTags {
     const val ONBOARDING_SCREEN_NAME = "onboarding_carousel_screen"
+    const val FIRST_ONBOARDING_LOTTIE = "first_onboarding_lottie"
+    const val SECOND_ONBOARDING_LOTTIE = "second_onboarding_lottie"
+    const val THIRD_ONBOARDING_LOTTIE = "third_onboarding_lottie"
     const val NEXT_BUTTON = "next_button"
     const val SKIP_BUTTON = "skip_button"
 }

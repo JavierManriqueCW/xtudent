@@ -18,8 +18,8 @@ class OnboardingViewModelTest {
         OnboardingViewModel(disableShouldShowOnboardingPreference)
 
     @Test
-    fun `disableShouldShowOnboarding should call use case`() {
-        sut.disableShouldShowOnboarding()
+    fun `DisableShouldShowOnboarding intent should call use case`() {
+        sut.sendIntent(OnboardingIntent.DisableShouldShowOnboarding)
 
         verify(disableShouldShowOnboardingPreference).invoke()
     }

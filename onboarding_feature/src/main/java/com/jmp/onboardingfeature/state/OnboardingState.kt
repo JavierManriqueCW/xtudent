@@ -1,16 +1,18 @@
 package com.jmp.onboardingfeature.state
 
-import androidx.compose.foundation.pager.PagerState
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 
 data class OnboardingState(
-    var imageId: Int = 0,
-    var pagerState: PagerState? = null,
-    var titleRes: Int? = null,
-    var descriptionRes: Int? = null,
-    var backgroundImage: Int = 0,
-    var imageSize: Dp = 0.dp,
-    var imageContentScale: ContentScale = ContentScale.None
+    val pages: Int,
+    val buttonColor: Color,
+    val selectedDotColor: Color,
+    val imageIdList: List<Int>,
+    val imageSizeList: List<Dp>,
+    val imageContentScaleList: List<ContentScale>,
+    val lottieTestTags: List<String>,
+    val titleResList: List<Int>,
+    val descriptionResList: List<Int>,
+    val backgroundImageList: List<Int>,
 )

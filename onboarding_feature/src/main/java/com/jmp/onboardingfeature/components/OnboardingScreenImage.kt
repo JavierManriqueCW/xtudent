@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.Dp
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
@@ -17,6 +18,7 @@ fun OnboardingScreenImage(
     modifier: Modifier = Modifier,
     size: Dp,
     lottieId: Int,
+    lottieTestTag: String,
     contentScale: ContentScale
 ) {
     Row(modifier = modifier) {
@@ -24,7 +26,10 @@ fun OnboardingScreenImage(
             val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(lottieId))
 
             LottieAnimation(
-                modifier = Modifier.size(size),
+                modifier = Modifier
+                    .size(size)
+                    .testTag(lottieTestTag
+                    ),
                 composition = composition,
                 iterations = LottieConstants.IterateForever,
                 contentScale = contentScale,

@@ -44,6 +44,7 @@ object ExamsScreenTestTags {
     const val EXAMS_SCREEN = "exams_screen"
     const val ERROR_MAIN_SCREEN = "error_main_screen"
     const val EXAMS_LIST = "exams_list"
+    const val EMPTY_EXAMS_SCREEN_LOTTIE = "empty_exams_screen_lottie"
     const val QUOTES_CAROUSEL = "quotes_carousel"
     const val QUOTES_CAROUSEL_ERROR_PLACEHOLDER = "quotes_carousel_error_placeholder"
     const val FILTER_TEXT_BOX = "filter_text_box"
