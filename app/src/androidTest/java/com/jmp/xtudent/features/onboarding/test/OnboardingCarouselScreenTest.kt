@@ -22,6 +22,7 @@ open class OnboardingCarouselScreenTest : UiTest() {
     @Test
     fun shouldOpenOnboardingCarouselScreen() = runTest {
         onOnboardingCarouselScreen()
+            .waitUntilFirstLottieIsLoaded()
 
         compareScreenshot(composeRule)
     }
@@ -30,6 +31,7 @@ open class OnboardingCarouselScreenTest : UiTest() {
     fun shouldNavigateToSecondOnboardingSlide() = runTest {
         onOnboardingCarouselScreen()
             .tapOnNextButton()
+            .waitUntilSecondLottieIsLoaded()
 
         compareScreenshot(composeRule)
     }
@@ -39,6 +41,7 @@ open class OnboardingCarouselScreenTest : UiTest() {
         onOnboardingCarouselScreen()
             .tapOnNextButton()
             .tapOnNextButton()
+            .waitUntilThirdLottieIsLoaded()
 
         compareScreenshot(composeRule)
     }

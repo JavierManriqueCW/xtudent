@@ -10,7 +10,9 @@ import com.jmp.examsfeature.presentation.list.screens.ExamsScreenTestTags.EMPTY_
 import com.jmp.onboardingfeature.OnboardingCarouselScreenTestTags.FIRST_ONBOARDING_LOTTIE
 import com.jmp.onboardingfeature.OnboardingCarouselScreenTestTags.NEXT_BUTTON
 import com.jmp.onboardingfeature.OnboardingCarouselScreenTestTags.ONBOARDING_SCREEN_NAME
+import com.jmp.onboardingfeature.OnboardingCarouselScreenTestTags.SECOND_ONBOARDING_LOTTIE
 import com.jmp.onboardingfeature.OnboardingCarouselScreenTestTags.SKIP_BUTTON
+import com.jmp.onboardingfeature.OnboardingCarouselScreenTestTags.THIRD_ONBOARDING_LOTTIE
 import com.jmp.xtudent.core.TestUtils.waitForNode
 import com.jmp.xtudent.features.exams.list.screen.ExamsScreen
 
@@ -42,9 +44,21 @@ open class OnboardingCarouselScreen(
     }
 
     fun waitUntilFirstLottieIsLoaded(): OnboardingCarouselScreen = apply {
+        waitUntilLottieIsLoaded(FIRST_ONBOARDING_LOTTIE)
+    }
+
+    fun waitUntilSecondLottieIsLoaded(): OnboardingCarouselScreen = apply {
+        waitUntilLottieIsLoaded(SECOND_ONBOARDING_LOTTIE)
+    }
+
+    fun waitUntilThirdLottieIsLoaded(): OnboardingCarouselScreen = apply {
+        waitUntilLottieIsLoaded(THIRD_ONBOARDING_LOTTIE)
+    }
+
+    private fun waitUntilLottieIsLoaded(testTag: String): OnboardingCarouselScreen = apply {
         waitUntil {
             composeTestRule
-                .onNodeWithTag(FIRST_ONBOARDING_LOTTIE)
+                .onNodeWithTag(testTag)
                 .fetchSemanticsNode()
                 .config
                 .getOrNull(SemanticsProperties.ProgressBarRangeInfo)
