@@ -47,6 +47,8 @@ open class OnboardingCarouselScreenTest : UiTest() {
     fun shouldNavigateToExamsScreenAfterThirdOnboardingSlide() = runTest {
         onOnboardingCarouselScreen()
             .tapConsecutivelyOnNextButton()
+
+        compareScreenshot(composeRule)
     }
 
     @Test
