@@ -10,9 +10,6 @@ jobs:
     strategy:
       matrix:
         api-level: [ 29 ]
-    permissions:
-      contents: write
-      pull-requests: write
 
     steps:
       - name: Check out code
