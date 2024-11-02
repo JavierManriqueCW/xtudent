@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="first_onboarding_step_title">"Welcome to xtudent!!"</string>
+    <string name="first_onboarding_step_title">"Welcome to Xtudent!"</string>
     <string name="second_onboarding_step_title">"Let's study"</string>
     <string name="third_onboarding_step_title">"Have a nice time!"</string>
     <string name="first_onboarding_step_description">"A helpful tool to save your self-made exams"</string>
