@@ -43,7 +43,9 @@ fun EmptyExamsScreen(modifier: Modifier = Modifier) {
                     .align(Alignment.CenterHorizontally)
                     .testTag(EMPTY_EXAMS_SCREEN_LOTTIE)
                     .semantics {
-                        contentDescription = EMPTY_EXAMS_LOTTIE_COMPOSITION_LOADED_SEMANTICS
+                        composition?.let {
+                            contentDescription = EMPTY_EXAMS_LOTTIE_COMPOSITION_LOADED_SEMANTICS
+                        }
                     },
                 composition = composition,
                 iterations = LottieConstants.IterateForever,

@@ -25,7 +25,6 @@ import com.jmp.examsfeature.presentation.list.screens.ExamsScreenTestTags.EXAM_R
 import com.jmp.examsfeature.presentation.list.screens.ExamsScreenTestTags.FILTER_TEXT_BOX
 import com.jmp.examsfeature.presentation.list.screens.ExamsScreenTestTags.QUOTES_CAROUSEL
 import com.jmp.examsfeature.presentation.list.screens.ExamsScreenTestTags.QUOTES_CAROUSEL_ERROR_PLACEHOLDER
-import com.jmp.onboardingfeature.OnboardingCarouselScreenTestTags.ONBOARDING_LOTTIE_COMPOSITION_LOADED_SEMANTICS
 import com.jmp.xtudent.core.TestUtils.waitForNode
 import com.jmp.xtudent.features.exams.creation.screen.ExamCreationScreen
 import com.jmp.xtudent.features.exams.detail.screen.ExamDetailScreen
