@@ -4,6 +4,7 @@ import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.semantics.getOrNull
 import androidx.compose.ui.test.SemanticsNodeInteraction
 import androidx.compose.ui.test.junit4.ComposeTestRule
+import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onChildAt
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
@@ -146,11 +147,15 @@ class ExamsScreen(
 
     fun waitUntilExamImageIsLoaded() {
         waitUntil {
-            composeTestRule
-                .onNodeWithTag(EXAM_ROW_IMAGE, useUnmergedTree = true)
-                .fetchSemanticsNode()
-                .config.getOrNull(SemanticsProperties.ContentDescription)
-                ?.contains(EXAM_ROW_IMAGE_LOADED_SEMANTICS) == true
+            composeTestRule.onAllNodesWithTag(EXAM_ROW_IMAGE, useUnmergedTree = true)
+                .fetchSemanticsNodes().let { nodes ->
+                    nodes.all { node ->
+                        node
+                            .config
+                            .getOrNull(SemanticsProperties.ContentDescription)
+                            ?.contains(EXAM_ROW_IMAGE_LOADED_SEMANTICS) == true
+                    }
+                }
         }
     }
 
