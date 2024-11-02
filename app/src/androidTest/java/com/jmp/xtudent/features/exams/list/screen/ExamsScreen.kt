@@ -147,7 +147,7 @@ class ExamsScreen(
     fun waitUntilExamImageIsLoaded() {
         waitUntil {
             composeTestRule
-                .onNodeWithTag(EXAM_ROW_IMAGE)
+                .onNodeWithTag(EXAM_ROW_IMAGE, useUnmergedTree = true)
                 .fetchSemanticsNode()
                 .config.getOrNull(SemanticsProperties.ContentDescription)
                 ?.contains(EXAM_ROW_IMAGE_LOADED_SEMANTICS) == true
