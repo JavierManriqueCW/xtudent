@@ -59,7 +59,7 @@ fun EmptyExamsScreen(modifier: Modifier = Modifier) {
                 color = Color.LightGray,
                 fontWeight = FontWeight.ExtraLight,
                 lineHeight = 60.sp,
-                text = "No exams imported",
+                text = "No exams importedddd",
                 fontSize = 24.sp,
             )
         }
