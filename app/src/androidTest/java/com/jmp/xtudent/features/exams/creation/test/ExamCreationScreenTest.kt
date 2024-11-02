@@ -40,6 +40,7 @@ class ExamCreationScreenTest : UiTest() {
             .scrollToBottom()
             .openPicker()
             .navigateToExamsScreen()
+            .waitUntilExamImageIsLoaded()
 
         compareScreenshot(composeRule)
     }
