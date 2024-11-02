@@ -42,6 +42,7 @@ open class ExamsScreenTest : UiTest() {
         mockExamsScenario.givenThatThereIsOneExam()
 
         onExamsScreen()
+            .waitUntilExamImageIsLoaded()
 
         compareScreenshot(composeRule)
     }
@@ -51,6 +52,7 @@ open class ExamsScreenTest : UiTest() {
         mockExamsScenario.givenThatThereAreSeveralExams()
 
         onExamsScreen()
+            .waitUntilExamImageIsLoaded()
 
         compareScreenshot(composeRule)
     }

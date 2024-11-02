@@ -161,6 +161,7 @@ object OnboardingCarouselScreenTestTags {
     const val FIRST_ONBOARDING_LOTTIE = "first_onboarding_lottie"
     const val SECOND_ONBOARDING_LOTTIE = "second_onboarding_lottie"
     const val THIRD_ONBOARDING_LOTTIE = "third_onboarding_lottie"
+    const val ONBOARDING_LOTTIE_COMPOSITION_LOADED_SEMANTICS = "onboarding_lottie_composition_loaded_semantics"
     const val NEXT_BUTTON = "next_button"
     const val SKIP_BUTTON = "skip_button"
 }

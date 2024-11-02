@@ -6,8 +6,8 @@ import androidx.compose.ui.test.junit4.ComposeTestRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import com.jmp.commons.utils.test.TestUtils.waitUntil
-import com.jmp.examsfeature.presentation.list.screens.ExamsScreenTestTags.EMPTY_EXAMS_SCREEN_LOTTIE
 import com.jmp.onboardingfeature.OnboardingCarouselScreenTestTags.FIRST_ONBOARDING_LOTTIE
+import com.jmp.onboardingfeature.OnboardingCarouselScreenTestTags.ONBOARDING_LOTTIE_COMPOSITION_LOADED_SEMANTICS
 import com.jmp.onboardingfeature.OnboardingCarouselScreenTestTags.NEXT_BUTTON
 import com.jmp.onboardingfeature.OnboardingCarouselScreenTestTags.ONBOARDING_SCREEN_NAME
 import com.jmp.onboardingfeature.OnboardingCarouselScreenTestTags.SECOND_ONBOARDING_LOTTIE
@@ -60,9 +60,8 @@ open class OnboardingCarouselScreen(
             composeTestRule
                 .onNodeWithTag(testTag)
                 .fetchSemanticsNode()
-                .config
-                .getOrNull(SemanticsProperties.ProgressBarRangeInfo)
-                ?.current != 0f
+                .config.getOrNull(SemanticsProperties.ContentDescription)
+                ?.contains(ONBOARDING_LOTTIE_COMPOSITION_LOADED_SEMANTICS) == true
         }
     }
 

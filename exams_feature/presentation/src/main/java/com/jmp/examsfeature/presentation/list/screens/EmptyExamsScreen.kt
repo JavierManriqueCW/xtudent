@@ -14,6 +14,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -23,6 +25,7 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.jmp.examsfeature.presentation.R
+import com.jmp.examsfeature.presentation.list.screens.ExamsScreenTestTags.EMPTY_EXAMS_LOTTIE_COMPOSITION_LOADED_SEMANTICS
 import com.jmp.examsfeature.presentation.list.screens.ExamsScreenTestTags.EMPTY_EXAMS_SCREEN_LOTTIE
 
 @Composable
@@ -38,7 +41,10 @@ fun EmptyExamsScreen(modifier: Modifier = Modifier) {
                 modifier = Modifier
                     .size(280.dp)
                     .align(Alignment.CenterHorizontally)
-                    .testTag(EMPTY_EXAMS_SCREEN_LOTTIE),
+                    .testTag(EMPTY_EXAMS_SCREEN_LOTTIE)
+                    .semantics {
+                        contentDescription = EMPTY_EXAMS_LOTTIE_COMPOSITION_LOADED_SEMANTICS
+                    },
                 composition = composition,
                 iterations = LottieConstants.IterateForever,
                 contentScale = ContentScale.Fit,

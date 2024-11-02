@@ -13,16 +13,23 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.jmp.examsfeature.presentation.R
+import com.jmp.examsfeature.presentation.list.screens.ExamsScreenTestTags.EXAM_ROW_IMAGE
+import com.jmp.examsfeature.presentation.list.screens.ExamsScreenTestTags.EXAM_ROW_IMAGE_LOADED_SEMANTICS
 
 @Composable
 fun ExamRowItemHeader(
@@ -31,13 +38,22 @@ fun ExamRowItemHeader(
     questionCount: Int,
     imageRes: Int
 ) {
+    val imageLoaded = remember { mutableStateOf(false) }
     Row(modifier = modifier) {
         Card(shape = CircleShape) {
             AsyncImage(
-                modifier = Modifier.size(40.dp),
+                modifier = Modifier
+                    .size(40.dp)
+                    .testTag(EXAM_ROW_IMAGE)
+                    .semantics {
+                        if (imageLoaded.value) {
+                            contentDescription = EXAM_ROW_IMAGE_LOADED_SEMANTICS
+                        }
+                    },
                 contentScale = ContentScale.Crop,
                 model = imageRes,
-                contentDescription = null
+                contentDescription = null,
+                onSuccess = { imageLoaded.value = true }
             )
         }
 
