@@ -58,14 +58,7 @@ project.afterEvaluate {
         group = "Reporting"
         description = "Generate JaCoCo coverage report for the debug build."
 
-        subprojects.collect { subproject ->
-            subproject.tasks.findAll { task ->
-                if (task.name == "testDebugUnitTest") {
-                    dependsOn task
-                }
-            }
-        }
-
+        dependsOn tasks.named("unitTests").get()
         finalizedBy(tasks.named("jacocoCoverageVerification").get())
 
         def excludedFiles = [
