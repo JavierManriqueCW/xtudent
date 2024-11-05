@@ -24,8 +24,15 @@ jobs:
       - name: Build and test with Gradle
         run: ./gradlew clean generateJacocoCoverageReport
 
+      - name: Upload unit tests report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: unit-tests-report
+          path: build/reports/tests/aggregate
+
       - name: Upload JaCoCo report
-        if: success()
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: jacoco-report

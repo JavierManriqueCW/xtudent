@@ -64,13 +64,11 @@ awaitility-kotlin = { module = "org.awaitility:awaitility-kotlin", version.ref =
 gradle = { group = "com.android.tools.build", name = "gradle", version.ref = "android-application" }
 agp = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin" }
 hilt-android-gradle-plugin = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hilt" }
-jacoco-org-jacoco-ant = { module = "org.jacoco:org.jacoco.ant", version.ref = "jacoco" }
 kotlin = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib-jdk7", version.ref = "kotlin" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 mockito-inline = { module = "org.mockito:mockito-inline", version.ref = "mockitoInline" }
-org-jacoco-agent = { module = "org.jacoco:org.jacoco.agent", version.ref = "jacoco" }
-org-jacoco-core = { module = "org.jacoco:org.jacoco.core", version.ref = "jacoco" }
+jacoco = { module = "org.jacoco:org.jacoco.core", version.ref = "jacoco" }
 window = { group = "androidx.window", name = "window", version.ref = "androidx-window" }
 recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "recycler-view" }
 security = { group = "androidx.security", name = "security-crypto", version.ref = "security-crypto" }

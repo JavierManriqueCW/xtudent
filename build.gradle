@@ -8,8 +8,7 @@ buildscript {
         classpath(libs.agp)
         classpath(libs.karumi.shot)
         classpath libs.hilt.android.gradle.plugin
-        classpath libs.org.jacoco.core
-        classpath libs.jacoco.org.jacoco.ant
+        classpath libs.jacoco
     }
 }
 
@@ -55,13 +54,7 @@ project.afterEvaluate {
         group = "Reporting"
         description = "Generate JaCoCo coverage report for the debug build."
 
-        subprojects.collect { subproject ->
-            subproject.tasks.findAll { task ->
-                if (task.name == "testDebugUnitTest") {
-                    dependsOn task
-                }
-            }
-        }
+        dependsOn unitTests
 
         finalizedBy(tasks.named("jacocoCoverageVerification").get())
 
@@ -107,7 +100,6 @@ project.afterEvaluate {
         }
         def sources = subprojects.collect { project ->
             [
-                    "${project.projectDir.name}/src/main/java",
                     "${project.projectDir.name}/src/main/java"
             ]
         }.flatten()

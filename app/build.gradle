@@ -118,8 +118,6 @@ dependencies {
     ksp libs.hilt.compiler
     ksp libs.hilt.android.compiler
 
-    implementation libs.org.jacoco.agent
-
     kspTest libs.hilt.android.compiler
     testImplementation libs.android.runner
     testImplementation libs.androidx.core.testing
