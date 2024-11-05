@@ -27,15 +27,17 @@ project.afterEvaluate {
         description = "Generates a combined test report for all modules"
         group = "verification"
 
-        destinationDirectory = file("$buildDir/reports/tests/aggregate")
-
-        subprojects.each { subproject ->
-            def testTask = subproject.tasks.named("testDebugUnitTest").get()
-            if (testTask) {
-                dependsOn(testTask)
-                testResults.from(testTask.binaryResultsDirectory)
+        def results = subprojects.collect { subproject ->
+            subproject.tasks.findAll { task ->
+                if (task.name == "testDebugUnitTest") {
+                    dependsOn task
+                    task.binaryResultsDirectory
+                }
             }
         }
+
+        testResults.from(results)
+        destinationDirectory = file("$buildDir/reports/tests/aggregate")
     }
 
     tasks.register("jacocoCoverageVerification", JacocoCoverageVerification) {
@@ -56,7 +58,13 @@ project.afterEvaluate {
         group = "Reporting"
         description = "Generate JaCoCo coverage report for the debug build."
 
-        dependsOn tasks.named("unitTests").get()
+        subprojects.collect { subproject ->
+            subproject.tasks.findAll { task ->
+                if (task.name == "testDebugUnitTest") {
+                    dependsOn task
+                }
+            }
+        }
 
         finalizedBy(tasks.named("jacocoCoverageVerification").get())
 
