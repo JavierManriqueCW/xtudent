@@ -36,4 +36,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: jacoco-report
-          path: build/reports/jacoco/jacoco/html
+          path: build/reports/jacoco/generateJacocoCoverageReport/html
